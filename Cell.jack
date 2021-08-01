@@ -1,0 +1,101 @@
+class Cell{
+
+    field Constants constants;
+    field int choose_x_index, choose_y_index;
+    field int game_mode_x_index, game_mode_y_index;
+    field int y_start_index,y_end_index;
+    field int x_player_start_index, x_player_end_index;
+    field int CELL_SIZE;
+    field Boolean is_game_on;
+
+    constructor Cell new(Boolean game_on){
+        let constants = Constants.new();
+        let choose_x_index = constants.get_player_x_start_index();
+        let choose_y_index = constants.get_y_start_index();
+
+        let x_player_start_index = constants.get_player_x_start_index();
+        let x_player_end_index = constants.get_player_x_end_index();
+        let y_end_index = constants.get_y_end_index();
+        let y_start_index = constants.get_y_start_index();
+
+        let game_mode_x_index = constants.get_computer_x_start_index();
+        let game_mode_y_index = constants.get_y_start_index();
+
+        let CELL_SIZE = constants.get_cell_size();
+
+        let is_game_on = game_on;
+
+        if(game_on = true){
+            do bold_cell(game_mode_x_index, game_mode_y_index, true, game_on);
+        }
+
+        if(game_on = false){
+            do bold_cell(choose_x_index, choose_y_index, true, game_on);
+        }
+        return this;
+    }
+
+    method void bold_cell(int x_index, int y_index, Boolean color, Boolean game_on){
+        do Screen.setColor(color);
+        do Screen.drawLine(x_index, y_index + 1, x_index + CELL_SIZE, y_index + 1);
+        do Screen.drawLine(x_index + 1, y_index, x_index + 1,y_index + CELL_SIZE);
+        do Screen.drawLine(x_index, y_index + CELL_SIZE - 1, x_index + CELL_SIZE, y_index + CELL_SIZE - 1);
+        do Screen.drawLine(x_index + CELL_SIZE - 1, y_index, x_index + CELL_SIZE - 1, y_index + CELL_SIZE);
+        return;
+    }
+
+    method void fill_cell(PlayersShips players_ships){
+        do Screen.setColor(true);
+        do Screen.drawRectangle(choose_x_index, choose_y_index, choose_x_index + CELL_SIZE - 1, choose_y_index + CELL_SIZE - 1);
+        do players_ships.add_cell(choose_x_index, choose_y_index);
+        return;
+    }
+
+    method void go_right(){
+        if(is_game_on = false){
+            if(choose_x_index + CELL_SIZE = x_player_end_index){
+                return;
+            }
+            do bold_cell(choose_x_index, choose_y_index, false, is_game_on);
+            let choose_x_index = choose_x_index + CELL_SIZE;
+            do bold_cell(choose_x_index, choose_y_index, true, is_game_on);
+        }
+        return;
+    }
+
+    method void go_left(){
+        if(is_game_on = false){
+            if(choose_x_index = x_player_start_index){
+                return;
+            }
+            do bold_cell(choose_x_index, choose_y_index, false, is_game_on);
+            let choose_x_index = choose_x_index - CELL_SIZE;
+            do bold_cell(choose_x_index, choose_y_index, true, is_game_on);
+        }
+        return;
+    }
+
+    method void go_up(){
+        if(is_game_on = false){
+            if(choose_y_index = y_start_index){
+                return;
+            }
+            do bold_cell(choose_x_index, choose_y_index, false, is_game_on);
+            let choose_y_index = choose_y_index - CELL_SIZE;
+            do bold_cell(choose_x_index, choose_y_index, true, is_game_on);
+        }
+        return;
+    }
+
+    method void go_down(){
+        if(is_game_on = false){
+            if(choose_y_index + CELL_SIZE = y_end_index){
+                return;
+            }
+            do bold_cell(choose_x_index, choose_y_index, false, is_game_on);
+            let choose_y_index = choose_y_index + CELL_SIZE;
+            do bold_cell(choose_x_index, choose_y_index, true, is_game_on);
+        }
+        return;
+    }
+}

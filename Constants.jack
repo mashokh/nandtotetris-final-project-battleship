@@ -1,0 +1,60 @@
+class Constants{
+    field int x_player_start_index, x_player_end_index;
+    field int x_computer_start_index, x_computer_end_index;
+    field int y_start_index, y_end_index;
+    field int BOARD_SIZE; 
+    field int CELL_SIZE;
+    field int array_size;
+    constructor Constants new(){
+        let x_player_start_index = 20;
+        let x_player_end_index = 220;
+
+        let x_computer_start_index = 292;
+        let x_computer_end_index = 492;
+
+        let y_start_index = 35;
+        let y_end_index = 235;
+
+        let BOARD_SIZE = 10;
+        let CELL_SIZE = 20;
+
+        let array_size = 200;
+        return this;
+    }
+
+    method int get_player_x_start_index(){
+        return x_player_start_index;
+    }
+
+    method int get_player_x_end_index(){
+        return x_player_end_index;
+    }
+
+    method int get_computer_x_start_index(){
+        return x_computer_start_index;
+    }
+
+    method int get_computer_x_end_index(){
+        return x_computer_end_index;
+    }
+
+    method int get_y_start_index(){
+        return y_start_index;
+    }
+
+    method int get_y_end_index(){
+        return y_end_index;
+    }
+
+    method int get_board_size(){
+        return BOARD_SIZE;
+    }
+
+    method int get_cell_size(){
+        return CELL_SIZE;
+    }
+
+    method int get_array_size(){
+        return array_size;
+    }
+}

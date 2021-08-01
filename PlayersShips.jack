@@ -1,0 +1,124 @@
+class PlayersShips{
+    field Constants constants;
+    field Array indexes;
+    field Scaling scaling;
+    field MyMath my_math;
+    field int size;
+    field int x_start_index;
+    field int y_start_index;
+    field int BOARD_SIZE;
+    field int curr_index;
+    constructor PlayersShips new(){
+        let constants = Constants.new();
+        let size = constants.get_array_size();
+        let scaling = Scaling.new();
+        let indexes = Array.new(size);
+        let my_math = MyMath.new();
+        let BOARD_SIZE = constants.get_board_size();
+        let x_start_index = constants.get_player_x_start_index();
+        let y_start_index = constants.get_y_start_index();
+        let curr_index = size - 1;
+        while(curr_index > -1){
+            let indexes[curr_index] = false;
+            let curr_index = curr_index - 1;
+        }
+        return this;
+    }
+    
+    method void add_cell(int x_index, int y_index){
+        var Point point;
+        var int index;
+        var int curr_index;
+        let point = Point.new(x_index, y_index);
+        let y_index = scaling.y_scale_for_player(y_index);
+        let x_index = scaling.x_scale_for_player(x_index);
+        let index = y_index * BOARD_SIZE;
+        let index = index + x_index;
+        let indexes[index] = true;
+        return;
+    }
+
+    method Boolean validate(){
+        var int current_index;
+        var int five_sized;
+        var int four_sized;
+        var int three_sized;
+        var int two_sized;
+        var int one_sized;
+        var int current_ship_size;
+        var Array tmp_indexes;
+        let tmp_indexes = indexes;
+        let current_index = size - 1;
+        let five_sized = 1;
+        let four_sized = 1;
+        let three_sized = 1;
+        let two_sized = 2;
+        let one_sized = 2;
+
+        while(current_index > -1) {
+            if(tmp_indexes[current_index] = true){
+                let tmp_indexes[current_index] = false;
+                let current_ship_size = check_cell(tmp_indexes, current_index, 1, false);
+                do Output.printInt(current_ship_size);
+
+                if(current_ship_size = 0){
+                    return false;
+                }
+                if(current_ship_size = 5){
+                    let five_sized = five_sized - 1;
+                }
+                if (current_ship_size = 4){
+                    let four_sized = four_sized - 1;
+                }
+                if(current_ship_size = 3){
+                    let three_sized = three_sized - 1;
+                }
+                if(current_ship_size = 2){
+                    let two_sized = two_sized - 1;
+                }
+                if(current_ship_size = 2){
+                    let one_sized = one_sized - 1;
+                }
+            }
+
+            let current_index = current_index - 1;
+        }
+        if(~(one_sized = 0) | ~(two_sized = 0) | ~ (three_sized = 0) | ~ (four_sized = 0) | ~ (five_sized = 0)){
+            return false;
+        }
+        return true;
+    }
+
+    method int check_cell(Array indexes, int index, int size, Boolean column){
+        if(column = false){
+            if(~(my_math.remainder(index, 10) = 0) & indexes[index - 1] = true){
+                if((index > 10) & indexes[index - BOARD_SIZE] = true){
+                    return 0;
+                }
+                let indexes[index - 1] = false;
+                let index = index - 1;
+                let size = size + 1;
+                return check_cell(indexes, index, size, false);
+            }
+        }
+        if(column = true | (size = 1)){
+            if(index < 10){
+                return size;
+            }
+            if(indexes[index - BOARD_SIZE] = true){
+                if ((my_math.remainder(index, 10) = 0) & indexes[index - 1] = true){
+                    return 0;
+                }
+                let indexes[index - BOARD_SIZE] = false;
+                let index = index - BOARD_SIZE;
+                let size = size + 1;
+                return check_cell(indexes, index, size, true);
+            }
+        }
+
+        if (~(my_math.remainder(index, 10) = 0) & (index > 10) & indexes[index - BOARD_SIZE - 1] = true){
+            return 0;
+        }
+        return size;
+    }
+}

@@ -1,0 +1,21 @@
+class MyMath{
+
+    field int a;
+    constructor MyMath new(){
+        let a = 20;
+        return this;
+    }
+
+    method int remainder(int a, int b){
+        var int division_result;
+        var int remainder;
+
+        let division_result = a / b;
+
+        while(division_result > 0){
+            let a = a - b;
+            let division_result = division_result - 1;
+        }
+        return a;
+    }
+}

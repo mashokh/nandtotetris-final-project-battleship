@@ -1,0 +1,56 @@
+class ConfigureBoard{
+    field PlayersShips players_ships;
+    field Cell cell;
+    field Board board;
+
+    constructor ConfigureBoard new(){
+        let board = Board.new();
+        let cell = Cell.new(false);
+        let players_ships = PlayersShips.new();
+
+        do configure_by_player(cell);
+        
+        return this;
+    }
+
+    method void configure_by_player(Cell cell){
+        var char key;
+        var Boolean exit;
+        var Boolean is_valid;
+        let exit = false;
+      
+        while (~exit) {
+            while (key = 0) {
+                let key = Keyboard.keyPressed();
+            }
+            if (key = 131) {
+                do cell.go_up();
+            } 
+            if (key = 133) {
+                do cell.go_down();
+            }
+            if (key = 130) {
+                do cell.go_left();
+            }
+            if (key = 132) { 
+                do cell.go_right();
+            }
+            if(key = 128){
+                do cell.fill_cell(players_ships);
+            }
+            if(key = 88){
+                let is_valid = players_ships.validate();
+                if(is_valid = true){
+                    do Output.printString("achu");
+                }
+                if(is_valid = false){
+                    do Output.printString("ki");
+                }
+            }
+            while (~(key = 0)) {
+                let key = Keyboard.keyPressed();
+            }
+        }
+        return;
+    }
+}

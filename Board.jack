@@ -1,0 +1,58 @@
+class Board {
+
+   field int x_player_start_index, x_player_end_index;
+   field int x_computer_start_index, x_computer_end_index;
+   field int y_start_index, y_end_index;
+   field int BOARD_SIZE;
+   field int CELL_SIZE;
+   field Constants constants;
+
+   constructor Board new() {
+      let constants = Constants.new();
+      let x_player_start_index = constants.get_player_x_start_index();
+      let x_player_end_index = constants.get_player_x_end_index();
+
+      let x_computer_start_index = constants.get_computer_x_start_index();
+      let x_computer_end_index = constants.get_computer_x_end_index();
+
+      let y_start_index = constants.get_y_start_index();
+      let y_end_index = constants.get_y_end_index();
+
+      let BOARD_SIZE = constants.get_board_size();
+      let CELL_SIZE = constants.get_cell_size();
+
+      do draw(x_player_start_index, x_player_end_index, y_start_index, y_end_index, BOARD_SIZE);
+      do draw(x_computer_start_index, x_computer_end_index, y_start_index, y_end_index, BOARD_SIZE);
+      return this;
+   }
+
+   method void draw(int x_start_index, int x_end_index, int y_start_index, int y_end_index, int BOARD_SIZE){
+      var int current_x_index;
+      var int current_y_index;
+      var int board_size;
+      var int current_board_position;
+
+      let current_x_index = x_start_index;
+      let current_y_index = y_start_index;
+      let board_size = BOARD_SIZE;
+      let current_board_position = 0;
+
+      while(board_size > -1){
+         do Screen.drawLine(x_start_index, current_y_index, x_end_index, current_y_index);
+         let board_size = board_size - 1;
+         let current_y_index = current_y_index + CELL_SIZE;
+      }
+
+      let board_size = BOARD_SIZE;
+
+      while(board_size > -1){
+         do Screen.drawLine(current_x_index, y_start_index, current_x_index, y_end_index);
+         let board_size = board_size - 1;
+         let current_x_index = current_x_index + CELL_SIZE;
+      }
+
+      
+      return;
+   }
+
+ }

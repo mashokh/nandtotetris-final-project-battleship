@@ -1,0 +1,20 @@
+class Scaling{
+    field int x_player_start_index;
+    field int y_start_index;
+    field Constants constants;
+    constructor Scaling new(){
+        let constants = Constants.new();
+        let x_player_start_index = constants.get_player_x_start_index();
+        let y_start_index = constants.get_y_start_index();
+        return this;
+    }
+
+    method int x_scale_for_player(int x_index){
+        let x_index = (x_index - x_player_start_index) / 20;
+        return x_index;
+    }
+
+    method int y_scale_for_player(int y_index){
+        return (y_index - y_start_index) / 20;
+    }
+}

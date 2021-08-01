@@ -1,0 +1,8 @@
+class Game{
+
+    field ConfigureBoard conf;
+    constructor Game new(){
+        let conf = ConfigureBoard.new();
+        return this;
+    }
+}
